@@ -1,0 +1,1003 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Course Intelligence Demo</title>
+  <meta name="description" content="Portfolio demo of a course intelligence dashboard for managing catalogues and generating explainable recommendations." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" />
+  <script src="https://unpkg.com/vis-network/standalone/umd/vis-network.min.js"></script>
+  <link rel="stylesheet" href="index.css" />
+</head>
+<body>
+
+<div class="demo-disclosure" role="note">
+  <strong>PORTFOLIO DEMO</strong>
+  <span>Fictional catalogue and local-only data · no live learner records or external course systems connected</span>
+</div>
+
+<!-- ── NAV ─────────────────────────────────────────────────────────────────── -->
+<header class="navbar">
+    <div class="navbar-brand">
+    <div class="brand-logo">CI</div>
+    <div class="brand-text">
+      <span class="brand-title">Course Intelligence</span>
+      <span class="brand-sub">Recommendation operations demo</span>
+    </div>
+  </div>
+  <nav class="nav-tabs" role="tablist">
+    <button class="nav-tab active" data-tab="courses" id="tab-courses" role="tab" aria-selected="true">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+      Courses
+    </button>
+    <button class="nav-tab" data-tab="suggest" id="tab-suggest" role="tab" aria-selected="false">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      Suggest Courses
+    </button>
+    <button class="nav-tab" data-tab="graph" id="tab-graph" role="tab" aria-selected="false">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+      Course Graph
+    </button>
+  </nav>
+  <div class="navbar-right">
+    <span class="course-count-badge" id="course-count">68 Courses</span>
+  </div>
+</header>
+
+<!-- ── TAB: COURSES ──────────────────────────────────────────────────────────── -->
+<section class="tab-panel active" id="panel-courses" role="tabpanel">
+  <div class="panel-toolbar">
+    <div class="toolbar-left">
+      <div class="search-wrap">
+        <svg class="search-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input type="search" id="course-search" placeholder="Search by name, domain, instructor…" autocomplete="off" />
+      </div>
+      <select id="domain-filter-courses" class="filter-select">
+        <option value="">All Domains</option>
+      </select>
+      <select id="level-filter-courses" class="filter-select">
+        <option value="">All Levels</option>
+        <option>Introductory</option>
+        <option>Intermediate</option>
+        <option>Advanced</option>
+      </select>
+      <select id="status-filter-courses" class="filter-select">
+        <option value="">All Statuses</option>
+        <option>Active</option>
+        <option>Inactive</option>
+        <option>Coming Soon</option>
+      </select>
+      <button id="clear-table-filters-btn" class="btn btn-ghost" style="white-space:nowrap">✕ Clear</button>
+    </div>
+    <button class="btn btn-primary" id="add-course-btn">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      Add Course
+    </button>
+  </div>
+
+  <div class="table-wrap">
+    <table id="courses-table">
+      <thead>
+        <tr>
+          <th class="sortable" data-col="name">Course Name <span class="sort-icon">↕</span></th>
+          <th class="sortable" data-col="instructor">Instructor <span class="sort-icon">↕</span></th>
+          <th class="sortable" data-col="domain">Domain <span class="sort-icon">↕</span></th>
+          <th class="sortable" data-col="level">Level <span class="sort-icon">↕</span></th>
+          <th class="sortable" data-col="duration">Duration <span class="sort-icon">↕</span></th>
+          <th class="sortable" data-col="price">Price <span class="sort-icon">↕</span></th>
+          <th class="sortable" data-col="deadline">Deadline <span class="sort-icon">↕</span></th>
+          <th class="sortable" data-col="status">Status <span class="sort-icon">↕</span></th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody id="courses-tbody"></tbody>
+    </table>
+    <div class="table-empty hidden" id="table-empty">No courses match your filters.</div>
+  </div>
+  <div class="table-footer" id="table-footer"></div>
+</section>
+
+<!-- ── TAB: SUGGEST ──────────────────────────────────────────────────────────── -->
+<section class="tab-panel" id="panel-suggest" role="tabpanel">
+  <div class="suggest-layout">
+
+    <!-- Sidebar filters -->
+    <aside class="suggest-sidebar">
+      <h3 class="sidebar-title">Filters</h3>
+
+      <div class="filter-group">
+        <label class="filter-label">Domain</label>
+        <div id="domain-checkboxes" class="checkbox-list"></div>
+      </div>
+
+      <div class="filter-group">
+        <label class="filter-label">Level</label>
+        <select id="suggest-level" class="filter-select full-width">
+          <option value="">Any Level</option>
+          <option>Introductory</option>
+          <option>Intermediate</option>
+          <option>Advanced</option>
+        </select>
+      </div>
+
+      <div class="filter-group">
+        <label class="filter-label">Eligibility</label>
+        <select id="suggest-eligibility" class="filter-select full-width">
+          <option value="">Any</option>
+          <option>No prior experience required</option>
+          <option>Some prior experience required</option>
+          <option>Extensive prior experience required</option>
+        </select>
+      </div>
+
+      <button class="btn btn-primary full-width" id="sidebar-find-btn">🔍 Find Courses</button>
+      <button class="btn btn-ghost full-width" id="clear-filters-btn">Clear Filters</button>
+    </aside>
+
+    <!-- Main suggestion area -->
+    <div class="suggest-main">
+      <div class="query-card">
+        <label class="query-label" for="client-query">
+          Client Query
+          <span class="query-hint">Paste the client's email or describe their interest</span>
+        </label>
+        <textarea id="client-query" placeholder="e.g. We are an NBFC looking to upskill our credit and risk team. We are also exploring AI applications in financial services…" rows="5"></textarea>
+        <div class="query-actions">
+          <span class="rate-info" id="rate-info">50 queries/hour limit</span>
+          <button class="btn btn-primary" id="find-courses-btn">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            Find Courses
+          </button>
+        </div>
+      </div>
+
+      <div id="suggest-loading" class="loading-state hidden">
+        <div class="spinner"></div>
+        <p>Analysing query and finding the best matches…</p>
+      </div>
+
+      <div id="suggest-results" class="hidden">
+        <div class="results-header">
+          <div>
+            <h3 id="results-title">Recommended Courses</h3>
+            <p id="results-subtitle" class="results-subtitle"></p>
+          </div>
+          <button class="btn btn-ghost" id="download-report-btn">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            Download Report
+          </button>
+        </div>
+
+        <div class="ai-summary-box" id="ai-summary-box">
+          <div class="ai-summary-label">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+            AI Summary
+          </div>
+          <p id="ai-summary-text"></p>
+        </div>
+
+        <div id="course-cards" class="course-cards"></div>
+      </div>
+
+      <div id="suggest-error" class="error-state hidden">
+        <p id="suggest-error-msg"></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── TAB: GRAPH ─────────────────────────────────────────────────────────────── -->
+<section class="tab-panel" id="panel-graph" role="tabpanel">
+  <div class="graph-layout">
+    <div class="graph-controls">
+      <h3 class="sidebar-title">Course Graph</h3>
+      <p class="graph-hint">Nodes = courses · Edges = shared instructor or learning progression</p>
+
+      <div class="filter-group">
+        <label class="filter-label">Highlight Domain</label>
+        <select id="graph-domain-filter" class="filter-select full-width">
+          <option value="">All Domains</option>
+        </select>
+      </div>
+
+      <div class="filter-group">
+        <label class="filter-label">Filter by Level</label>
+        <select id="graph-level-filter" class="filter-select full-width">
+          <option value="">All Levels</option>
+          <option>Introductory</option>
+          <option>Intermediate</option>
+          <option>Advanced</option>
+        </select>
+      </div>
+
+      <div class="filter-group">
+        <label class="filter-label">Search Node</label>
+        <input type="search" id="graph-search" class="filter-select full-width" placeholder="Course name…" />
+      </div>
+
+      <button class="btn btn-primary full-width" id="dashboard-add-course-btn" style="margin-bottom: 10px;">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="vertical-align: middle; margin-right: 5px;"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        Add Course
+      </button>
+      <button class="btn btn-ghost full-width" id="graph-reset-btn">Reset View</button>
+
+      <div class="graph-legend" id="graph-legend"></div>
+    </div>
+
+    <div class="graph-canvas-wrap">
+      <div id="graph-canvas"></div>
+      <div class="graph-detail-panel hidden" id="graph-detail-panel">
+        <button class="detail-close" id="detail-close">✕</button>
+        <div id="graph-detail-content"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── EDIT MODAL ─────────────────────────────────────────────────────────────── -->
+<div class="modal-overlay hidden" id="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+  <div class="modal">
+    <div class="modal-header">
+      <h2 class="modal-title" id="modal-title">Edit Course</h2>
+      <button class="modal-close" id="modal-close" aria-label="Close">✕</button>
+    </div>
+    <form id="course-form" class="modal-form">
+      <input type="hidden" id="field-id" />
+      <div class="form-grid">
+        <div class="form-group span-2">
+          <label>Course Name</label>
+          <input type="text" id="field-name" required />
+        </div>
+        <div class="form-group span-2">
+          <label>Instructor(s)</label>
+          <input type="text" id="field-instructor" />
+        </div>
+        <div class="form-group">
+          <label>Domain</label>
+          <input type="text" id="field-domain" />
+        </div>
+        <div class="form-group">
+          <label>Level</label>
+          <select id="field-level">
+            <option>Introductory</option>
+            <option>Intermediate</option>
+            <option>Advanced</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Duration</label>
+          <input type="text" id="field-duration" placeholder="e.g. 6 weeks" />
+        </div>
+        <div class="form-group">
+          <label>Weekly Effort</label>
+          <input type="text" id="field-weeklyEffort" placeholder="e.g. 3 to 5 hours per week" />
+        </div>
+        <div class="form-group">
+          <label>Pace</label>
+          <select id="field-pace">
+            <option>Self-paced</option>
+            <option>Instructor-paced</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Eligibility</label>
+          <select id="field-eligibility">
+            <option>No prior experience required</option>
+            <option>Some prior experience required</option>
+            <option>Extensive prior experience required</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Price / Fee</label>
+          <input type="text" id="field-price" placeholder="e.g. ₹12,000" />
+        </div>
+        <div class="form-group">
+          <label>Deadline / Next Cohort</label>
+          <input type="text" id="field-deadline" placeholder="e.g. Aug 2025" />
+        </div>
+        <div class="form-group">
+          <label>Status</label>
+          <select id="field-status">
+            <option>Active</option>
+            <option>Inactive</option>
+            <option>Coming Soon</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Certificate</label>
+          <select id="field-certificate">
+            <option>Yes</option>
+            <option>No</option>
+          </select>
+        </div>
+        <div class="form-group span-2">
+          <label>Target Audience</label>
+          <input type="text" id="field-targetAudience" placeholder="e.g. HR professionals, Finance teams" />
+        </div>
+        <div class="form-group span-2">
+          <label>Course URL</label>
+          <input type="url" id="field-courseUrl" placeholder="https://www.edx.org/..." />
+        </div>
+        <div class="form-group span-2">
+          <label>Description</label>
+          <textarea id="field-description" rows="3"></textarea>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-ghost" id="modal-cancel">Cancel</button>
+        <button type="submit" class="btn btn-primary">Save Changes</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- ── PRINT TEMPLATE (hidden, shown on print) ──────────────────────────────── -->
+<div id="print-report" class="hidden">
+  <table class="print-table">
+    <thead>
+      <tr>
+        <th class="print-page-header">
+          <div class="print-page-header-inner">
+            <div class="print-page-header-left">
+              <span class="print-page-header-tag">ACADEMIC PARTNERSHIP PROGRAMME</span>
+              <span class="print-page-header-title">Course Recommendation Report</span>
+            </div>
+            <div class="print-logo-header">CI</div>
+          </div>
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="print-body-cell">
+          <div class="print-hero">
+            <div class="print-hero-text">
+              <h1 class="print-hero-title">Course Recommendation Report</h1>
+              <p class="print-meta">Prepared by Course Intelligence Demo · <span id="print-date"></span></p>
+            </div>
+          </div>
+          <div class="print-summary-section">
+            <div class="print-summary-label">AI RECOMMENDATION SUMMARY</div>
+            <p id="print-summary-text"></p>
+          </div>
+          <div class="print-courses-heading">Recommended Courses</div>
+          <div id="print-courses-list"></div>
+          <div class="print-footer">Course Intelligence Demo · fictional sample data</div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="demo-toast" id="demo-toast" role="status" aria-live="polite"></div>
+
+<script src="./demo-api.js"></script>
+<script>
+// ── State ──────────────────────────────────────────────────────────────────────
+let allCourses = [];
+let filteredCourses = [];
+let sortCol = 'name', sortDir = 1;
+let graphNetwork = null, graphData = null, graphNodes = null, graphEdges = null;
+let lastSuggestResults = null;
+
+// ── Init ───────────────────────────────────────────────────────────────────────
+async function init() {
+  await loadCourses();
+  setupTabs();
+  setupCoursesTable();
+  setupSuggest();
+  setupGraph();
+}
+
+// ── Load courses ───────────────────────────────────────────────────────────────
+async function loadCourses() {
+  const res = await fetch('/api/courses');
+  allCourses = await res.json();
+  filteredCourses = [...allCourses];
+  document.getElementById('course-count').textContent = `${allCourses.length} Courses`;
+  populateDomainFilters();
+  
+  convertToMultiSelect('domain-filter-courses', 'All Domains');
+  convertToMultiSelect('level-filter-courses', 'All Levels');
+  convertToMultiSelect('status-filter-courses', 'All Statuses');
+  
+  convertToMultiSelect('graph-domain-filter', 'All Domains');
+  convertToMultiSelect('graph-level-filter', 'All Levels');
+
+  renderTable(filteredCourses);
+}
+
+function populateDomainFilters() {
+  const domains = [...new Set(allCourses.map(c => c.domain))].sort();
+
+  // Table filter
+  const sel = document.getElementById('domain-filter-courses');
+  domains.forEach(d => sel.add(new Option(d, d)));
+
+  // Suggest checkboxes
+  const cbl = document.getElementById('domain-checkboxes');
+  domains.forEach(d => {
+    const lbl = document.createElement('label');
+    lbl.className = 'checkbox-item';
+    lbl.innerHTML = `<input type="checkbox" value="${d}" class="domain-cb" /> ${d}`;
+    cbl.appendChild(lbl);
+  });
+
+  // Graph filter
+  const gsel = document.getElementById('graph-domain-filter');
+  domains.forEach(d => gsel.add(new Option(d, d)));
+}
+
+// ── Multi-select UI ────────────────────────────────────────────────────────────
+function convertToMultiSelect(selectId, placeholder) {
+  const select = document.getElementById(selectId);
+  if (!select) return;
+  select.style.display = 'none';
+  select.multiple = true;
+  
+  let wrapper = select.nextElementSibling;
+  if (wrapper && wrapper.classList.contains('multi-select-wrapper')) {
+    wrapper.remove();
+  }
+  
+  wrapper = document.createElement('div');
+  wrapper.className = 'multi-select-wrapper';
+  
+  const btn = document.createElement('div');
+  btn.className = 'multi-select-btn';
+  btn.innerHTML = `<span>${placeholder}</span>`;
+  
+  const dropdown = document.createElement('div');
+  dropdown.className = 'multi-select-dropdown';
+  
+  Array.from(select.options).forEach(opt => {
+    if (!opt.value) return;
+    const lbl = document.createElement('label');
+    lbl.className = 'multi-select-option';
+    const cb = document.createElement('input');
+    cb.type = 'checkbox';
+    cb.value = opt.value;
+    
+    cb.addEventListener('change', () => {
+      opt.selected = cb.checked;
+      select.dispatchEvent(new Event('change'));
+      
+      const selectedOpts = Array.from(select.selectedOptions).filter(o => o.value);
+      if (selectedOpts.length === 0) btn.innerHTML = `<span>${placeholder}</span>`;
+      else if (selectedOpts.length === 1) btn.innerHTML = `<span>${selectedOpts[0].text}</span>`;
+      else btn.innerHTML = `<span>${selectedOpts.length} selected</span>`;
+    });
+    
+    lbl.appendChild(cb);
+    lbl.appendChild(document.createTextNode(opt.text));
+    dropdown.appendChild(lbl);
+  });
+  
+  wrapper.appendChild(btn);
+  wrapper.appendChild(dropdown);
+  select.parentNode.insertBefore(wrapper, select.nextSibling);
+  
+  btn.addEventListener('click', e => {
+    e.stopPropagation();
+    const isOpen = wrapper.classList.contains('open');
+    document.querySelectorAll('.multi-select-wrapper').forEach(w => w.classList.remove('open'));
+    if (!isOpen) wrapper.classList.add('open');
+  });
+}
+
+document.addEventListener('click', () => {
+  document.querySelectorAll('.multi-select-wrapper').forEach(w => w.classList.remove('open'));
+});
+
+function getMultiValues(selectId) {
+  const el = document.getElementById(selectId);
+  if (!el || !el.multiple) return el ? [el.value].filter(v => v) : [];
+  return Array.from(el.selectedOptions).map(o => o.value).filter(v => v);
+}
+
+// ── Tabs ───────────────────────────────────────────────────────────────────────
+function setupTabs() {
+  document.querySelectorAll('.nav-tab').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const tab = btn.dataset.tab;
+      document.querySelectorAll('.nav-tab').forEach(t => { t.classList.remove('active'); t.setAttribute('aria-selected', 'false'); });
+      document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+      btn.classList.add('active');
+      btn.setAttribute('aria-selected', 'true');
+      document.getElementById(`panel-${tab}`).classList.add('active');
+      if (tab === 'graph' && !graphNetwork) initGraph();
+    });
+  });
+}
+
+// ── Courses Table ──────────────────────────────────────────────────────────────
+function setupCoursesTable() {
+  document.getElementById('course-search').addEventListener('input', applyTableFilters);
+  document.getElementById('domain-filter-courses').addEventListener('change', applyTableFilters);
+  document.getElementById('level-filter-courses').addEventListener('change', applyTableFilters);
+  document.getElementById('status-filter-courses').addEventListener('change', applyTableFilters);
+  document.getElementById('clear-table-filters-btn').addEventListener('click', () => {
+    document.getElementById('course-search').value = '';
+    ['domain-filter-courses', 'level-filter-courses', 'status-filter-courses'].forEach(id => {
+      const sel = document.getElementById(id);
+      Array.from(sel.options).forEach(o => o.selected = false);
+      const wrapper = sel.nextElementSibling;
+      if (wrapper && wrapper.classList.contains('multi-select-wrapper')) {
+        wrapper.querySelectorAll('input[type="checkbox"]').forEach(cb => cb.checked = false);
+        const labels = { 'domain-filter-courses': 'All Domains', 'level-filter-courses': 'All Levels', 'status-filter-courses': 'All Statuses' };
+        wrapper.querySelector('.multi-select-btn span').textContent = labels[id];
+      }
+    });
+    applyTableFilters();
+  });
+
+  document.querySelectorAll('.sortable').forEach(th => {
+    th.addEventListener('click', () => {
+      const col = th.dataset.col;
+      if (sortCol === col) sortDir *= -1;
+      else { sortCol = col; sortDir = 1; }
+      document.querySelectorAll('.sortable').forEach(t => t.classList.remove('sort-asc', 'sort-desc'));
+      th.classList.add(sortDir === 1 ? 'sort-asc' : 'sort-desc');
+      renderTable(filteredCourses);
+    });
+  });
+
+  document.getElementById('add-course-btn').addEventListener('click', () => openModal(null));
+  document.getElementById('dashboard-add-course-btn').addEventListener('click', () => openModal(null));
+  setupModal();
+}
+
+function applyTableFilters() {
+  const q = document.getElementById('course-search').value.toLowerCase();
+  const domains = getMultiValues('domain-filter-courses');
+  const levels = getMultiValues('level-filter-courses');
+  const statuses = getMultiValues('status-filter-courses');
+
+  filteredCourses = allCourses.filter(c => {
+    const matchQ = !q || c.name.toLowerCase().includes(q) || (c.instructor||'').toLowerCase().includes(q) || (c.domain||'').toLowerCase().includes(q);
+    const matchD = domains.length === 0 || domains.includes(c.domain);
+    const matchL = levels.length === 0 || levels.includes(c.level);
+    const matchS = statuses.length === 0 || statuses.includes(c.status);
+    return matchQ && matchD && matchL && matchS;
+  });
+
+  renderTable(filteredCourses);
+}
+
+function renderTable(courses) {
+  const sorted = [...courses].sort((a, b) => {
+    const av = (a[sortCol] || '').toString().toLowerCase();
+    const bv = (b[sortCol] || '').toString().toLowerCase();
+    return av < bv ? -sortDir : av > bv ? sortDir : 0;
+  });
+
+  const tbody = document.getElementById('courses-tbody');
+  tbody.innerHTML = '';
+
+  if (sorted.length === 0) {
+    document.getElementById('table-empty').classList.remove('hidden');
+    document.getElementById('table-footer').textContent = '';
+    return;
+  }
+  document.getElementById('table-empty').classList.add('hidden');
+  document.getElementById('table-footer').textContent = `Showing ${sorted.length} of ${allCourses.length} courses`;
+
+  sorted.forEach(c => {
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td class="td-name" title="${c.name}">${c.name}</td>
+      <td class="td-instructor" title="${c.instructor||''}">${c.instructor || '—'}</td>
+      <td><span class="domain-tag">${c.domain}</span></td>
+      <td><span class="level-badge level-${(c.level||'').toLowerCase().split('/')[0].trim().replace(' ','-')}">${c.level}</span></td>
+      <td>${c.duration || '—'}</td>
+      <td>${c.price || '—'}</td>
+      <td>${c.deadline || '—'}</td>
+      <td><span class="status-badge status-${(c.status||'active').toLowerCase().replace(' ','-')}">${c.status || 'Active'}</span></td>
+      <td class="td-actions">
+        <button class="action-btn edit-btn" data-id="${c.id}" title="Edit">✏️</button>
+        <button class="action-btn delete-btn" data-id="${c.id}" title="Delete">🗑️</button>
+      </td>`;
+    tbody.appendChild(tr);
+  });
+
+  tbody.querySelectorAll('.edit-btn').forEach(btn => btn.addEventListener('click', () => openModal(parseInt(btn.dataset.id))));
+  tbody.querySelectorAll('.delete-btn').forEach(btn => btn.addEventListener('click', () => deleteCourse(parseInt(btn.dataset.id))));
+}
+
+// ── Modal ──────────────────────────────────────────────────────────────────────
+function setupModal() {
+  document.getElementById('modal-close').addEventListener('click', closeModal);
+  document.getElementById('modal-cancel').addEventListener('click', closeModal);
+  document.getElementById('modal-overlay').addEventListener('click', e => { if (e.target.id === 'modal-overlay') closeModal(); });
+  document.getElementById('course-form').addEventListener('submit', saveCourse);
+}
+
+function openModal(id) {
+  const course = id ? allCourses.find(c => c.id === id) : null;
+  document.getElementById('modal-title').textContent = course ? 'Edit Course' : 'Add Course';
+  const fields = ['id','name','instructor','domain','level','duration','weeklyEffort','pace','eligibility','price','deadline','status','certificate','targetAudience','courseUrl','description'];
+  fields.forEach(f => {
+    const el = document.getElementById(`field-${f}`);
+    if (el) el.value = course ? (course[f] || '') : (f === 'status' ? 'Active' : f === 'certificate' ? 'Yes' : '');
+  });
+  document.getElementById('modal-overlay').classList.remove('hidden');
+  document.getElementById('field-name').focus();
+}
+
+function closeModal() {
+  document.getElementById('modal-overlay').classList.add('hidden');
+}
+
+async function saveCourse(e) {
+  e.preventDefault();
+  const id = document.getElementById('field-id').value;
+  const data = {
+    name: document.getElementById('field-name').value,
+    instructor: document.getElementById('field-instructor').value,
+    domain: document.getElementById('field-domain').value,
+    level: document.getElementById('field-level').value,
+    duration: document.getElementById('field-duration').value,
+    weeklyEffort: document.getElementById('field-weeklyEffort').value,
+    pace: document.getElementById('field-pace').value,
+    eligibility: document.getElementById('field-eligibility').value,
+    price: document.getElementById('field-price').value,
+    deadline: document.getElementById('field-deadline').value,
+    status: document.getElementById('field-status').value,
+    certificate: document.getElementById('field-certificate').value,
+    targetAudience: document.getElementById('field-targetAudience').value,
+    courseUrl: document.getElementById('field-courseUrl').value,
+    description: document.getElementById('field-description').value,
+  };
+
+  const url = id ? `/api/courses/${id}` : '/api/courses';
+  const method = id ? 'PUT' : 'POST';
+  await fetch(url, { method, headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) });
+  closeModal();
+  await loadCourses();
+}
+
+async function deleteCourse(id) {
+  if (!confirm('Delete this course?')) return;
+  await fetch(`/api/courses/${id}`, { method: 'DELETE' });
+  await loadCourses();
+}
+
+// ── Suggest ────────────────────────────────────────────────────────────────────
+let lastQueryTime = 0;
+
+function setupSuggest() {
+  convertToMultiSelect('suggest-level', 'Any Level');
+  convertToMultiSelect('suggest-eligibility', 'Any');
+
+  document.getElementById('find-courses-btn').addEventListener('click', runSuggest);
+  document.getElementById('sidebar-find-btn').addEventListener('click', runSuggest);
+  document.getElementById('clear-filters-btn').addEventListener('click', () => {
+    document.querySelectorAll('.domain-cb').forEach(cb => cb.checked = false);
+    
+    ['suggest-level', 'suggest-eligibility'].forEach(id => {
+      const sel = document.getElementById(id);
+      if (!sel) return;
+      Array.from(sel.options).forEach(o => o.selected = false);
+      const wrapper = sel.nextElementSibling;
+      if (wrapper && wrapper.classList.contains('multi-select-wrapper')) {
+        wrapper.querySelectorAll('input[type="checkbox"]').forEach(cb => cb.checked = false);
+        const placeholder = id.includes('level') ? 'Any Level' : 'Any';
+        wrapper.querySelector('.multi-select-btn span').textContent = placeholder;
+      }
+    });
+  });
+  document.getElementById('download-report-btn').addEventListener('click', downloadReport);
+}
+
+async function runSuggest() {
+  const now = Date.now();
+  if (now - lastQueryTime < 1000) return; // 1s debounce
+  lastQueryTime = now;
+
+  const query = document.getElementById('client-query').value.trim();
+  const domains = [...document.querySelectorAll('.domain-cb:checked')].map(cb => cb.value);
+  const levels = getMultiValues('suggest-level');
+  const eligibilities = getMultiValues('suggest-eligibility');
+
+  if (!query && domains.length === 0 && levels.length === 0 && eligibilities.length === 0) {
+    alert('Please enter a client query or select at least one filter.');
+    return;
+  }
+
+  const payload = {
+    query,
+    filters: { domains, levels, eligibilities }
+  };
+  document.getElementById('suggest-loading').classList.remove('hidden');
+  document.getElementById('suggest-results').classList.add('hidden');
+  document.getElementById('suggest-error').classList.add('hidden');
+
+  try {
+    const res = await fetch('/api/suggest', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ query, filters: { domains, levels, eligibilities } })
+    });
+
+    if (!res.ok) {
+      const err = await res.json();
+      throw new Error(err.error || 'Server error');
+    }
+
+    const data = await res.json();
+    lastSuggestResults = { query, data };
+    renderSuggestResults(data, query);
+  } catch (err) {
+    document.getElementById('suggest-error-msg').textContent = err.message;
+    document.getElementById('suggest-error').classList.remove('hidden');
+  } finally {
+    document.getElementById('suggest-loading').classList.add('hidden');
+  }
+}
+
+function renderSuggestResults(data, query) {
+  const { recommendedCourses, overallRecommendation, source, warning } = data;
+
+  document.getElementById('results-title').textContent = `${recommendedCourses.length} Recommended Course${recommendedCourses.length !== 1 ? 's' : ''}`;
+  document.getElementById('results-subtitle').textContent = source === 'groq' ? 'Powered by Groq AI' : warning || 'Matched by keyword analysis';
+
+  let formattedEmail = overallRecommendation
+    .replace(/\\n/g, '<br>')
+    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+  document.getElementById('ai-summary-text').innerHTML = formattedEmail;
+
+  const cards = document.getElementById('course-cards');
+  cards.innerHTML = '';
+  recommendedCourses.forEach((c, i) => {
+    const card = document.createElement('div');
+    card.className = 'course-card';
+    card.innerHTML = `
+      <div class="card-header">
+        <div class="card-rank">#${i + 1}</div>
+        <div class="card-meta">
+          <span class="domain-tag">${c.domain || ''}</span>
+          <span class="level-badge level-${(c.level||'').toLowerCase().split('/')[0].trim().replace(' ','-')}">${c.level || ''}</span>
+          ${c.certificate === 'Yes' ? '<span class="cert-badge">🎓 Certificate</span>' : ''}
+        </div>
+      </div>
+      <h4 class="card-title">${c.name || ''}</h4>
+      <p class="card-reason">${c.reason || ''}</p>
+      <div class="card-details">
+        ${c.instructor ? `<span>👤 ${c.instructor}</span>` : ''}
+        ${c.duration ? `<span>⏱ ${c.duration}</span>` : ''}
+        ${c.weeklyEffort ? `<span>📅 ${c.weeklyEffort}</span>` : ''}
+        ${c.price ? `<span>💰 ${c.price}</span>` : ''}
+        ${c.deadline ? `<span>🗓 ${c.deadline}</span>` : ''}
+      </div>
+      ${c.description ? `<p class="card-description">${c.description.substring(0, 200)}…</p>` : ''}
+      <a class="card-link" style="display: inline-block; margin-top: 10px; font-weight: bold; color: var(--primary);" href="#demo-record">Open demo record →</a>`;
+    const recordLink = card.querySelector('.card-link');
+    recordLink.addEventListener('click', event => {
+      event.preventDefault();
+      showDemoToast(`${c.name} · local demo record`, 'This portfolio build intentionally keeps course links inside the demo.');
+    });
+    cards.appendChild(card);
+  });
+
+  document.getElementById('suggest-results').classList.remove('hidden');
+}
+
+function showDemoToast(title, message) {
+  const toast = document.getElementById('demo-toast');
+  if (!toast) return;
+  toast.innerHTML = `<strong>${title}</strong><span>${message}</span>`;
+  toast.classList.add('visible');
+  clearTimeout(window.demoToastTimer);
+  window.demoToastTimer = setTimeout(() => toast.classList.remove('visible'), 3200);
+}
+
+function downloadReport() {
+  if (!lastSuggestResults) return;
+  const { data } = lastSuggestResults;
+
+  document.getElementById('print-date').textContent = new Date().toLocaleDateString('en-IN', { day:'numeric', month:'long', year:'numeric' });
+  document.getElementById('print-summary-text').textContent = data.overallRecommendation;
+
+  const list = document.getElementById('print-courses-list');
+  list.innerHTML = data.recommendedCourses.map((c, i) => `
+    <div class="print-course">
+      <div class="print-course-header">
+        <span class="print-course-rank">${i+1}</span>
+        <div class="print-course-title-block">
+          <h4 class="print-course-name">${c.name}</h4>
+          <span class="print-course-domain">${c.domain || ''}</span>
+        </div>
+      </div>
+      <div class="print-course-meta-grid">
+        ${c.level ? `<div class="print-meta-item"><span class="print-meta-key">Level</span><span>${c.level}</span></div>` : ''}
+        ${c.duration ? `<div class="print-meta-item"><span class="print-meta-key">Duration</span><span>${c.duration}</span></div>` : ''}
+        ${c.certificate === 'Yes' ? `<div class="print-meta-item"><span class="print-meta-key">Certificate</span><span>Available</span></div>` : ''}
+        ${c.pace ? `<div class="print-meta-item"><span class="print-meta-key">Pace</span><span>${c.pace}</span></div>` : ''}
+      </div>
+      <p class="print-course-reason"><strong>Why it fits:</strong> ${c.reason || ''}</p>
+      ${c.description ? `<p class="print-course-desc">${c.description.substring(0, 220)}…</p>` : ''}
+    </div>`).join('');
+
+  document.getElementById('print-report').classList.remove('hidden');
+  window.print();
+  setTimeout(() => document.getElementById('print-report').classList.add('hidden'), 1000);
+}
+
+// ── Graph ──────────────────────────────────────────────────────────────────────
+function setupGraph() {
+  document.getElementById('graph-domain-filter').addEventListener('change', applyGraphFilters);
+  document.getElementById('graph-level-filter').addEventListener('change', applyGraphFilters);
+  document.getElementById('graph-search').addEventListener('input', applyGraphSearch);
+  document.getElementById('graph-reset-btn').addEventListener('click', resetGraph);
+  document.getElementById('detail-close').addEventListener('click', () => document.getElementById('graph-detail-panel').classList.add('hidden'));
+}
+
+async function initGraph() {
+  const res = await fetch('/api/graph');
+  graphData = await res.json();
+
+  const container = document.getElementById('graph-canvas');
+
+  // Build legend
+  const legend = document.getElementById('graph-legend');
+  legend.innerHTML = '<p class="filter-label" style="margin-bottom:8px">Legend</p>' +
+    Object.entries(graphData.domainColors).map(([d, c]) =>
+      `<div class="legend-item"><span class="legend-dot" style="background:${c}"></span>${d}</div>`
+    ).join('');
+
+  graphNodes = new vis.DataSet(graphData.nodes.map(n => ({
+    id: n.id, label: n.label, title: n.fullName,
+    color: { background: n.color, border: n.color, highlight: { background: n.color, border: '#1e293b' } },
+    font: { color: '#1e293b', size: 11 },
+    shape: 'dot', size: 14,
+  })));
+
+  graphEdges = new vis.DataSet(graphData.edges.map((e, i) => ({
+    id: i, from: e.from, to: e.to,
+    color: { color: e.color, highlight: '#64748b' },
+    width: 1, smooth: { type: 'continuous' },
+    arrows: e.arrows || '',
+  })));
+
+  graphNetwork = new vis.Network(container, { nodes: graphNodes, edges: graphEdges }, {
+    physics: { barnesHut: { gravitationalConstant: -3000, springLength: 120 }, stabilization: { iterations: 200 } },
+    interaction: { hover: true, tooltipDelay: 200 },
+  });
+
+  graphNetwork.once('stabilizationIterationsDone', () => {
+    graphNetwork.setOptions({ physics: false });
+  });
+
+  graphNetwork.on('click', params => {
+    if (!params.nodes.length) return;
+    const nodeId = params.nodes[0];
+    const course = allCourses.find(c => c.id === nodeId);
+    if (!course) return;
+    showCourseDetail(course);
+  });
+
+  graphNetwork.on('zoom', () => {
+    const scale = graphNetwork.getScale();
+    if (scale <= 0.4) graphNetwork.moveTo({ scale: 0.4 });
+    if (scale >= 2.5) graphNetwork.moveTo({ scale: 2.5 });
+  });
+
+  const enforceBounds = () => {
+    if (!graphNetwork) return;
+    const pos = graphNetwork.getViewPosition();
+    const limit = 500; // Tighter limit keeps nodes always visible
+    if (Math.abs(pos.x) > limit || Math.abs(pos.y) > limit) {
+      graphNetwork.moveTo({
+        position: { x: Math.max(-limit, Math.min(limit, pos.x)), y: Math.max(-limit, Math.min(limit, pos.y)) },
+        animation: { duration: 300 }
+      });
+    }
+  };
+
+  graphNetwork.on('dragEnd', enforceBounds);
+  setInterval(enforceBounds, 800); // Failsafe for trackpad panning
+
+}
+
+function showCourseDetail(course) {
+  const panel = document.getElementById('graph-detail-panel');
+  document.getElementById('graph-detail-content').innerHTML = `
+    <h4>${course.name}</h4>
+    <div class="detail-tags">
+      <span class="domain-tag">${course.domain}</span>
+      <span class="level-badge level-${(course.level||'').toLowerCase().split('/')[0].trim().replace(' ','-')}">${course.level}</span>
+      <span class="status-badge status-${(course.status||'active').toLowerCase().replace(' ','-')}">${course.status || 'Active'}</span>
+    </div>
+    <table class="detail-table">
+      <tr><td>Instructor</td><td>${course.instructor || '—'}</td></tr>
+      <tr><td>Duration</td><td>${course.duration || '—'}</td></tr>
+      <tr><td>Effort</td><td>${course.weeklyEffort || '—'}</td></tr>
+      <tr><td>Price</td><td>${course.price || '—'}</td></tr>
+      <tr><td>Deadline</td><td>${course.deadline || '—'}</td></tr>
+      <tr><td>Certificate</td><td>${course.certificate || '—'}</td></tr>
+    </table>
+    ${course.description ? `<p class="detail-desc">${course.description.substring(0,250)}…</p>` : ''}
+    ${course.courseUrl ? `<a class="card-link" href="${course.courseUrl}" target="_blank" rel="noopener">View Course →</a>` : ''}
+  `;
+  panel.classList.remove('hidden');
+}
+
+function applyGraphFilters() {
+  if (!graphNetwork || !graphNodes) return;
+  const domains = getMultiValues('graph-domain-filter');
+  const levels = getMultiValues('graph-level-filter');
+  const q = document.getElementById('graph-search').value.toLowerCase();
+
+  const updates = [];
+  const matchNodes = [];
+
+  graphData.nodes.forEach(n => {
+    const matchD = domains.length === 0 || domains.includes(n.domain);
+    const matchL = levels.length === 0 || levels.includes(n.level);
+    const matchQ = !q || n.fullName.toLowerCase().includes(q);
+    
+    const isMatch = matchD && matchL && matchQ;
+    updates.push({ id: n.id, hidden: !isMatch });
+    if (isMatch) matchNodes.push(n.id);
+  });
+
+  graphNodes.update(updates);
+  graphNetwork.setOptions({ physics: false }); // Force freeze immediately
+
+  if (matchNodes.length && (domains.length || levels.length || q)) {
+    if (matchNodes.length <= 4) {
+      graphNetwork.focus(matchNodes[0], { scale: 0.8, animation: true });
+    } else {
+      graphNetwork.fit({ nodes: matchNodes, animation: true });
+    }
+  } else if (!domains.length && !levels.length && !q) {
+    graphNetwork.fit({ animation: true });
+  }
+  triggerGraphGlow();
+}
+
+function applyGraphSearch() {
+  applyGraphFilters();
+}
+
+function triggerGraphGlow() {
+  const wrap = document.querySelector('.graph-canvas-wrap');
+  if (wrap) {
+    wrap.classList.remove('graph-glow-effect');
+    void wrap.offsetWidth; // trigger reflow to restart animation
+    wrap.classList.add('graph-glow-effect');
+  }
+}
+
+function resetGraph() {
+  if (!graphNetwork || !graphNodes) return;
+  document.getElementById('graph-search').value = '';
+  
+  ['graph-domain-filter', 'graph-level-filter'].forEach(id => {
+    const sel = document.getElementById(id);
+    if (!sel) return;
+    Array.from(sel.options).forEach(o => o.selected = false);
+    
+    const wrapper = sel.nextElementSibling;
+    if (wrapper && wrapper.classList.contains('multi-select-wrapper')) {
+      wrapper.querySelectorAll('input[type="checkbox"]').forEach(cb => cb.checked = false);
+      const placeholder = id.includes('domain') ? 'All Domains' : 'All Levels';
+      wrapper.querySelector('.multi-select-btn span').textContent = placeholder;
+    }
+  });
+
+  const updates = graphData.nodes.map(n => ({ id: n.id, hidden: false }));
+  graphNodes.update(updates);
+  
+  graphNetwork.unselectAll();
+  graphNetwork.fit({ animation: true });
+}
+
+init().catch(error => {
+  console.error(error);
+  showDemoToast('Demo data could not load', 'Refresh the page to reload the local catalogue.');
+});
+</script>
+</body>
+</html>
