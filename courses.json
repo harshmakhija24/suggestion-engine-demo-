@@ -2,7 +2,7 @@
   {
     "id": 1,
     "name": "People Management with Impact",
-    "instructor": "Vasanthi Srinivasan",
+    "instructor": "Alex Demo",
     "domain": "OB / HR",
     "level": "Introductory",
     "eligibility": "No prior experience required",
@@ -34,7 +34,7 @@
   {
     "id": 2,
     "name": "The Essence of Leadership: Explorations from Literature",
-    "instructor": "Manikutty S",
+    "instructor": "Riley Sandbox",
     "domain": "OB / Leadership",
     "level": "Intermediate",
     "eligibility": "Some prior experience required",
@@ -68,7 +68,7 @@
   {
     "id": 3,
     "name": "Crafting Realities: Work, Happiness, and Meaning",
-    "instructor": "Ramya Ranganathan",
+    "instructor": "Jordan Example",
     "domain": "OB / Leadership",
     "level": "Introductory",
     "eligibility": "No prior experience required",
@@ -99,7 +99,7 @@
   {
     "id": 4,
     "name": "Accounting for Decision Making",
-    "instructor": "M S Narasimhan",
+    "instructor": "Taylor Fixture",
     "domain": "Accounting",
     "level": "Intermediate",
     "eligibility": "Some prior experience required",
@@ -130,7 +130,7 @@
   {
     "id": 5,
     "name": "Marketing Management",
-    "instructor": "Ashis Mishra",
+    "instructor": "Morgan Preview",
     "domain": "Marketing",
     "level": "Intermediate",
     "eligibility": "Some prior experience required",
@@ -150,7 +150,7 @@
   {
     "id": 6,
     "name": "Operations Management",
-    "instructor": "B Mahadevan",
+    "instructor": "Casey Mock",
     "domain": "Operations Management",
     "level": "Intermediate",
     "eligibility": "Some prior experience required",
@@ -170,7 +170,7 @@
   {
     "id": 7,
     "name": "Strategic Management",
-    "instructor": "P D Jose",
+    "instructor": "Avery Sample",
     "domain": "Strategy",
     "level": "Introductory",
     "eligibility": "No prior experience required",
@@ -190,7 +190,7 @@
   {
     "id": 8,
     "name": "Do Your Venture: Entrepreneurship for Everyone",
-    "instructor": "Suresh Bhagavatula",
+    "instructor": "Quinn Test",
     "domain": "Entrepreneurship / Strategy",
     "level": "Introductory",
     "eligibility": "No prior experience required",
@@ -222,7 +222,7 @@
   {
     "id": 9,
     "name": "Consumer Behaviour",
-    "instructor": "S Ramesh Kumar",
+    "instructor": "Parker Demo",
     "domain": "Marketing",
     "level": "Introductory",
     "eligibility": "No prior experience required",
@@ -255,7 +255,7 @@
   {
     "id": 10,
     "name": "Services Marketing: Concepts & Applications",
-    "instructor": "Shainesh G",
+    "instructor": "Drew Sandbox",
     "domain": "Marketing",
     "level": "Introductory",
     "eligibility": "No prior experience required",
@@ -275,7 +275,7 @@
   {
     "id": 11,
     "name": "Quantitative Marketing Research",
-    "instructor": "Prithviraj Mukherjee",
+    "instructor": "Skyler Example",
     "domain": "Marketing / Research",
     "level": "Introductory",
     "eligibility": "No prior experience required",
@@ -309,7 +309,7 @@
   {
     "id": 12,
     "name": "Health Communication",
-    "instructor": "Deepti Ganapathi",
+    "instructor": "Reese Fixture",
     "domain": "Communication",
     "level": "Intermediate",
     "eligibility": "Some prior experience required",
@@ -329,7 +329,7 @@
   {
     "id": 13,
     "name": "Macroeconomics: Theory and Policy",
-    "instructor": "Rupa Chandra",
+    "instructor": "Rowan Demo",
     "domain": "Economics",
     "level": "Intermediate",
     "eligibility": "Some prior experience required",
@@ -349,7 +349,7 @@
   {
     "id": 14,
     "name": "Introduction to Fintech",
-    "instructor": "Rakesh Pozhath, Balakrishnan M, Saranya Gopinath, Rajesh Bansal, Tiru Sharma",
+    "instructor": "Cameron Sample, Emery Mock, Finley Preview, Sage Example, Blair Fixture",
     "domain": "Finance",
     "level": "Introductory",
     "eligibility": "No prior experience required",
@@ -369,7 +369,7 @@
   {
     "id": 15,
     "name": "Basics of Financial Management",
-    "instructor": "Harshali Damle",
+    "instructor": "Dakota Demo",
     "domain": "Finance",
     "level": "Introductory",
     "eligibility": "No prior experience required",
@@ -389,7 +389,7 @@
   {
     "id": 16,
     "name": "Business of Insurance and InsurTech",
-    "instructor": "Sanath Kumar, K Sriram",
+    "instructor": "Harper Sandbox, Alex Demo",
     "domain": "Finance",
     "level": "Introductory",
     "eligibility": "No prior experience required",
@@ -409,7 +409,7 @@
   {
     "id": 17,
     "name": "Digital Product Management",
-    "instructor": "Shankhadeep Banerjee",
+    "instructor": "Riley Sandbox",
     "domain": "Technology / AI",
     "level": "Introductory",
     "eligibility": "No prior experience required",
@@ -429,7 +429,7 @@
   {
     "id": 18,
     "name": "Wealth Management",
-    "instructor": "Ravindran, Aravind, Kalpana, Gopal",
+    "instructor": "Jordan Example, Taylor Fixture, Morgan Preview, Casey Mock",
     "domain": "Finance",
     "level": "Introductory",
     "eligibility": "No prior experience required",
@@ -449,7 +449,7 @@
   {
     "id": 19,
     "name": "Valuation and Creating Sustainable Value",
-    "instructor": "Padmini Srinivasan",
+    "instructor": "Avery Sample",
     "domain": "Finance",
     "level": "Introductory",
     "eligibility": "No prior experience required",
@@ -469,7 +469,7 @@
   {
     "id": 20,
     "name": "Securities, Market and Trading",
-    "instructor": "Anirudh Dhawan",
+    "instructor": "Quinn Test",
     "domain": "Finance",
     "level": "Intermediate",
     "eligibility": "Some prior experience required",
@@ -489,7 +489,7 @@
   {
     "id": 21,
     "name": "Securities Market",
-    "instructor": "Sabarinathan G",
+    "instructor": "Parker Demo",
     "domain": "Finance",
     "level": "Advanced",
     "eligibility": "Extensive prior experience required",
@@ -509,7 +509,7 @@
   {
     "id": 22,
     "name": "Platform Business Models",
-    "instructor": "R Srinivasan",
+    "instructor": "Drew Sandbox",
     "domain": "Entrepreneurship / Strategy",
     "level": "Introductory",
     "eligibility": "No prior experience required",
@@ -541,7 +541,7 @@
   {
     "id": 23,
     "name": "Philosophy of Social Science",
-    "instructor": "Mr. Abhoy K Ojha",
+    "instructor": "Skyler Example",
     "domain": "Humanities / Indian Knowledge",
     "level": "Introductory",
     "eligibility": "No prior experience required",
@@ -561,7 +561,7 @@
   {
     "id": 24,
     "name": "Performance Management System",
-    "instructor": "Romana Gulshani",
+    "instructor": "Reese Fixture",
     "domain": "OB / HR",
     "level": "Introductory",
     "eligibility": "No prior experience required",
@@ -581,7 +581,7 @@
   {
     "id": 25,
     "name": "People Management for Entrepreneurs",
-    "instructor": "Vasanthi Srinivasan",
+    "instructor": "Alex Demo",
     "domain": "OB / HR",
     "level": "Intermediate",
     "eligibility": "Some prior experience required",
@@ -601,7 +601,7 @@
   {
     "id": 26,
     "name": "New Product Development",
-    "instructor": "Ganesh N Prabhu",
+    "instructor": "Rowan Demo",
     "domain": "Entrepreneurship / Strategy",
     "level": "Introductory",
     "eligibility": "No prior experience required",
@@ -630,7 +630,7 @@
   {
     "id": 27,
     "name": "New Age Business Models in Fintech",
-    "instructor": "K Ganesh",
+    "instructor": "Cameron Sample",
     "domain": "Finance",
     "level": "Introductory",
     "eligibility": "No prior experience required",
@@ -650,7 +650,7 @@
   {
     "id": 28,
     "name": "New Age Business Models",
-    "instructor": "K Ganesh",
+    "instructor": "Cameron Sample",
     "domain": "Entrepreneurship / Strategy",
     "level": "Introductory",
     "eligibility": "No prior experience required",
@@ -670,7 +670,7 @@
   {
     "id": 29,
     "name": "Mastering Deep Learning",
-    "instructor": "Naveen Kumar Bhansali",
+    "instructor": "Emery Mock",
     "domain": "Technology / AI",
     "level": "Introductory",
     "eligibility": "No prior experience required",
@@ -690,7 +690,7 @@
   {
     "id": 30,
     "name": "Marketing Essentials",
-    "instructor": "Ashis Mishra",
+    "instructor": "Morgan Preview",
     "domain": "Marketing",
     "level": "Introductory",
     "eligibility": "No prior experience required",
@@ -721,7 +721,7 @@
   {
     "id": 31,
     "name": "Managing Family Businesses for Sustained Success",
-    "instructor": "K Kumar, Dalhia Mani",
+    "instructor": "Finley Preview, Sage Example",
     "domain": "Entrepreneurship / Strategy",
     "level": "Intermediate",
     "eligibility": "Some prior experience required",
@@ -754,7 +754,7 @@
   {
     "id": 32,
     "name": "Managerial Economics: Concepts and Applications",
-    "instructor": "Subhashish Gupta",
+    "instructor": "Blair Fixture",
     "domain": "Economics",
     "level": "Intermediate",
     "eligibility": "Some prior experience required",
@@ -774,7 +774,7 @@
   {
     "id": 33,
     "name": "Leading Self and Others",
-    "instructor": "Gopal Mahapatra",
+    "instructor": "Dakota Demo",
     "domain": "OB / Leadership",
     "level": "Intermediate",
     "eligibility": "Some prior experience required",
@@ -808,7 +808,7 @@
   {
     "id": 34,
     "name": "Leadership Lessons from Bhagavad Gita",
-    "instructor": "B Mahadevan",
+    "instructor": "Casey Mock",
     "domain": "OB / Leadership",
     "level": "Introductory",
     "eligibility": "No prior experience required",
@@ -828,7 +828,7 @@
   {
     "id": 35,
     "name": "Investments: Analysis and Management",
-    "instructor": "M S Narasimhan",
+    "instructor": "Taylor Fixture",
     "domain": "Finance",
     "level": "Intermediate",
     "eligibility": "Some prior experience required",
@@ -848,7 +848,7 @@
   {
     "id": 36,
     "name": "Introduction to Insurance",
-    "instructor": "Sankarshan Basu",
+    "instructor": "Harper Sandbox",
     "domain": "Finance",
     "level": "Introductory",
     "eligibility": "No prior experience required",
@@ -868,7 +868,7 @@
   {
     "id": 37,
     "name": "Introduction to Banking and Financial Markets",
-    "instructor": "P. C. Narayan",
+    "instructor": "Alex Demo",
     "domain": "Finance",
     "level": "Introductory",
     "eligibility": "No prior experience required",
@@ -888,7 +888,7 @@
   {
     "id": 38,
     "name": "Introduction to Banking",
-    "instructor": "M Jayadev",
+    "instructor": "Riley Sandbox",
     "domain": "Finance",
     "level": "Introductory",
     "eligibility": "No prior experience required",
@@ -908,7 +908,7 @@
   {
     "id": 39,
     "name": "International Trade Finance",
-    "instructor": "Mithun Raj",
+    "instructor": "Jordan Example",
     "domain": "Finance",
     "level": "Intermediate",
     "eligibility": "Some prior experience required",
@@ -928,7 +928,7 @@
   {
     "id": 40,
     "name": "Infrastructure Development, PPPs and Regulation",
-    "instructor": "Raghuram G",
+    "instructor": "Taylor Fixture",
     "domain": "Public Policy",
     "level": "Intermediate",
     "eligibility": "Some prior experience required",
@@ -948,7 +948,7 @@
   {
     "id": 41,
     "name": "Indian Knowledge System: Humanities and Social Sciences",
-    "instructor": "B Mahadevan",
+    "instructor": "Casey Mock",
     "domain": "Humanities / Indian Knowledge",
     "level": "Introductory",
     "eligibility": "No prior experience required",
@@ -968,7 +968,7 @@
   {
     "id": 42,
     "name": "Indian Knowledge System: Concepts and Applications in Science",
-    "instructor": "B Mahadevan",
+    "instructor": "Casey Mock",
     "domain": "Humanities / Indian Knowledge",
     "level": "Introductory",
     "eligibility": "No prior experience required",
@@ -988,7 +988,7 @@
   {
     "id": 43,
     "name": "Indian Knowledge System: Concepts and Applications in Engineering",
-    "instructor": "B Mahadevan",
+    "instructor": "Casey Mock",
     "domain": "Humanities / Indian Knowledge",
     "level": "Introductory",
     "eligibility": "No prior experience required",
@@ -1008,7 +1008,7 @@
   {
     "id": 44,
     "name": "Indian Knowledge System: Perspectives on Public Administration",
-    "instructor": "B Mahadevan",
+    "instructor": "Casey Mock",
     "domain": "Humanities / Indian Knowledge",
     "level": "Introductory",
     "eligibility": "No prior experience required",
@@ -1028,7 +1028,7 @@
   {
     "id": 45,
     "name": "Generative AI and Large Language Models",
-    "instructor": "Naveen Kumar Bhansali",
+    "instructor": "Emery Mock",
     "domain": "Technology / AI",
     "level": "Introductory",
     "eligibility": "No prior experience required",
@@ -1048,7 +1048,7 @@
   {
     "id": 46,
     "name": "Fundamentals of Public Policy",
-    "instructor": "Arnab Mukherji",
+    "instructor": "Morgan Preview",
     "domain": "Public Policy",
     "level": "Introductory",
     "eligibility": "No prior experience required",
@@ -1068,7 +1068,7 @@
   {
     "id": 47,
     "name": "From Theory to Practice: Implementing ESG and Sustainability in Business",
-    "instructor": "Aditya Gupta",
+    "instructor": "Casey Mock",
     "domain": "Sustainability / ESG",
     "level": "Intermediate",
     "eligibility": "Some prior experience required",
@@ -1088,7 +1088,7 @@
   {
     "id": 48,
     "name": "Foundations of Lean Manufacturing",
-    "instructor": "Saideep Rathnam",
+    "instructor": "Avery Sample",
     "domain": "Operations Management",
     "level": "Introductory",
     "eligibility": "No prior experience required",
@@ -1108,7 +1108,7 @@
   {
     "id": 49,
     "name": "Foundations of French",
-    "instructor": "Ramya Jagannathan",
+    "instructor": "Quinn Test",
     "domain": "Language",
     "level": "Introductory",
     "eligibility": "No prior experience required",
@@ -1128,7 +1128,7 @@
   {
     "id": 50,
     "name": "Financial Accounting and Analysis",
-    "instructor": "Padmini Srinivasan",
+    "instructor": "Avery Sample",
     "domain": "Accounting",
     "level": "Intermediate",
     "eligibility": "Some prior experience required",
@@ -1148,7 +1148,7 @@
   {
     "id": 51,
     "name": "Finance Sense: Finance for Non-Finance Executives",
-    "instructor": "Prasanna Chandra",
+    "instructor": "Parker Demo",
     "domain": "Finance",
     "level": "Introductory",
     "eligibility": "No prior experience required",
@@ -1168,7 +1168,7 @@
   {
     "id": 52,
     "name": "Evolution of Business and Market",
-    "instructor": "Prateek Raj",
+    "instructor": "Drew Sandbox",
     "domain": "Entrepreneurship / Strategy",
     "level": "Introductory",
     "eligibility": "No prior experience required",
@@ -1201,7 +1201,7 @@
   {
     "id": 53,
     "name": "Digital Marketing Strategy",
-    "instructor": "Shainesh G",
+    "instructor": "Drew Sandbox",
     "domain": "Marketing",
     "level": "Intermediate",
     "eligibility": "Some prior experience required",
@@ -1221,7 +1221,7 @@
   {
     "id": 54,
     "name": "Design Your Career",
-    "instructor": "Pavan Soni",
+    "instructor": "Skyler Example",
     "domain": "Career Development",
     "level": "Introductory",
     "eligibility": "No prior experience required",
@@ -1241,7 +1241,7 @@
   {
     "id": 55,
     "name": "Customer Relationship Management",
-    "instructor": "Shainesh G",
+    "instructor": "Drew Sandbox",
     "domain": "Marketing",
     "level": "Intermediate",
     "eligibility": "Some prior experience required",
@@ -1261,7 +1261,7 @@
   {
     "id": 56,
     "name": "Corporate Strategy: Advanced Concepts and Applications",
-    "instructor": "R. Srinivasan, Sai Yayavaram",
+    "instructor": "Reese Fixture, Rowan Demo",
     "domain": "Strategy",
     "level": "Intermediate",
     "eligibility": "Some prior experience required",
@@ -1281,7 +1281,7 @@
   {
     "id": 57,
     "name": "Corporate Finance",
-    "instructor": "Ashok Thampy",
+    "instructor": "Cameron Sample",
     "domain": "Finance",
     "level": "Intermediate",
     "eligibility": "Some prior experience required",
@@ -1311,7 +1311,7 @@
   {
     "id": 58,
     "name": "Business Communication Essentials",
-    "instructor": "N Bringi Dev, Rakesh Godhwani",
+    "instructor": "Emery Mock, Finley Preview",
     "domain": "Communication",
     "level": "Introductory",
     "eligibility": "No prior experience required",
@@ -1331,7 +1331,7 @@
   {
     "id": 59,
     "name": "Brand Management",
-    "instructor": "Preeti Krishnan Lyndem",
+    "instructor": "Sage Example",
     "domain": "Marketing",
     "level": "Introductory",
     "eligibility": "No prior experience required",
@@ -1361,7 +1361,7 @@
   {
     "id": 60,
     "name": "Blockchain and AI in Fintech",
-    "instructor": "Rangaraj, Naveen",
+    "instructor": "Blair Fixture, Dakota Demo",
     "domain": "Finance",
     "level": "Intermediate",
     "eligibility": "Some prior experience required",
@@ -1381,7 +1381,7 @@
   {
     "id": 61,
     "name": "Behavioural Economics and Public Policy",
-    "instructor": "Ritwik Banerjee",
+    "instructor": "Harper Sandbox",
     "domain": "Economics",
     "level": "Intermediate",
     "eligibility": "Some prior experience required",
@@ -1413,7 +1413,7 @@
   {
     "id": 62,
     "name": "Banking and Risk Management",
-    "instructor": "M. Jayadev",
+    "instructor": "Alex Demo",
     "domain": "Finance",
     "level": "Advanced",
     "eligibility": "Some prior experience required",
@@ -1433,7 +1433,7 @@
   {
     "id": 63,
     "name": "Banking and NBFC",
-    "instructor": "M. Jayadev",
+    "instructor": "Alex Demo",
     "domain": "Finance",
     "level": "Advanced",
     "eligibility": "Some prior experience required",
@@ -1453,7 +1453,7 @@
   {
     "id": 64,
     "name": "Advanced French: Fluency in Focus",
-    "instructor": "Ramya Jagannathan",
+    "instructor": "Quinn Test",
     "domain": "Language",
     "level": "Advanced",
     "eligibility": "Some prior experience required",
@@ -1473,7 +1473,7 @@
   {
     "id": 65,
     "name": "Advanced Corporate Strategy",
-    "instructor": "R Srinivasan",
+    "instructor": "Drew Sandbox",
     "domain": "Strategy",
     "level": "Advanced",
     "eligibility": "Some prior experience required",
@@ -1503,7 +1503,7 @@
   {
     "id": 66,
     "name": "Advance Lean Manufacturing",
-    "instructor": "Saideep Rathnam",
+    "instructor": "Avery Sample",
     "domain": "Operations Management",
     "level": "Intermediate",
     "eligibility": "Some prior experience required",
@@ -1523,7 +1523,7 @@
   {
     "id": 67,
     "name": "Accounting and Finance",
-    "instructor": "M S Narasimhan",
+    "instructor": "Taylor Fixture",
     "domain": "Accounting",
     "level": "Intermediate",
     "eligibility": "Some prior experience required",
@@ -1558,7 +1558,7 @@
   {
     "id": 68,
     "name": "Banking and Financial Markets: A Risk Management Perspective",
-    "instructor": "P. C. Narayan",
+    "instructor": "Alex Demo",
     "domain": "Finance",
     "level": "Intermediate",
     "eligibility": "Some prior experience required",
